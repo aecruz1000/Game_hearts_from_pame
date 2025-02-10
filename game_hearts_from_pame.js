@@ -35,6 +35,9 @@ const heartSize = 50;
 let heartSpeed = 3;
 let heartsCaught = 0;
 
+// Variable para el corazón grande
+let largeHeart = null;
+
 function spawnHeart() {
     hearts.push({
         x: Math.random() * (canvas.width - heartSize),
@@ -66,9 +69,26 @@ function update() {
         heartSpeed += 0.5;
     }
 
-    // Cambiar la imagen del lanzador después de 10 corazones atrapados
-    if (heartsCaught >= 10 && thrower.image.src !== largeHeartImageURL) {
-        thrower.image.src = largeHeartImageURL;  // Cambiar a corazón grande
+    // Crear el corazón grande después de 10 corazones atrapados
+    if (heartsCaught >= 10 && largeHeart === null) {
+        largeHeart = {
+            x: thrower.x + thrower.width / 2 - 25,
+            y: thrower.y + thrower.height / 2 - 25,
+            size: 50,
+            growing: true,
+            image: new Image(),
+            insideImage: new Image()
+        };
+        largeHeart.image.src = heartImageURL;
+        largeHeart.insideImage.src = secondImageURL; // Imagen 2.jpg dentro del corazón
+    }
+
+    // Hacer crecer el corazón grande
+    if (largeHeart && largeHeart.growing) {
+        largeHeart.size += 2;  // Incrementar el tamaño del corazón
+        if (largeHeart.size >= 150) { // Detener el crecimiento después de que alcance un tamaño específico
+            largeHeart.growing = false;
+        }
     }
 }
 
@@ -83,6 +103,17 @@ function draw() {
     ctx.fillStyle = "black";
     ctx.font = "30px Arial";
     ctx.fillText(`Atrapados: ${heartsCaught}`, 10, 30);
+
+    // Mostrar el corazón grande
+    if (largeHeart) {
+        // Dibujar el corazón grande
+        ctx.drawImage(largeHeart.image, largeHeart.x, largeHeart.y, largeHeart.size, largeHeart.size);
+
+        // Dibujar la imagen 2.jpg dentro del corazón grande
+        const imgX = largeHeart.x + (largeHeart.size - 100) / 2;
+        const imgY = largeHeart.y + (largeHeart.size - 100) / 2;
+        ctx.drawImage(largeHeart.insideImage, imgX, imgY, 100, 100);
+    }
 
     // Mostrar la imagen 2.jpg después de atrapar más de 15 corazones
     if (heartsCaught >= 15) {
@@ -106,5 +137,3 @@ document.addEventListener('mousemove', (e) => {
 
 setInterval(spawnHeart, 1000); // Crear corazones cada 1 segundo
 loop();
-
-
