@@ -1,13 +1,15 @@
 const canvas = document.createElement('canvas');
 const ctx = canvas.getContext('2d');
 document.body.appendChild(canvas);
-canvas.width = 800;
+canvas.width = 400;  // Ancho reducido a 400
 canvas.height = 600;
 
 // URLs de las imágenes
 const heartImageURL = './20.png';
 const throwerImageURL = './19_2.png';
 const playerImageURL = './16_2.png';
+const largeHeartImageURL = './20.png'; // Corazón grande
+const secondImageURL = './2.jpg'; // Segunda imagen
 
 const player = {
     x: canvas.width / 2 - 50,
@@ -63,6 +65,11 @@ function update() {
     if (heartsCaught % 5 === 0 && heartSpeed < 10) { // Aumentar cada 5 corazones atrapados
         heartSpeed += 0.5;
     }
+
+    // Cambiar la imagen del lanzador después de 10 corazones atrapados
+    if (heartsCaught >= 10 && thrower.image.src !== largeHeartImageURL) {
+        thrower.image.src = largeHeartImageURL;  // Cambiar a corazón grande
+    }
 }
 
 function draw() {
@@ -76,6 +83,13 @@ function draw() {
     ctx.fillStyle = "black";
     ctx.font = "30px Arial";
     ctx.fillText(`Atrapados: ${heartsCaught}`, 10, 30);
+
+    // Mostrar la imagen 2.jpg después de atrapar más de 15 corazones
+    if (heartsCaught >= 15) {
+        const secondImage = new Image();
+        secondImage.src = secondImageURL;
+        ctx.drawImage(secondImage, 0, canvas.height / 2 - 100, canvas.width, 200);
+    }
 }
 
 function loop() {
@@ -92,4 +106,5 @@ document.addEventListener('mousemove', (e) => {
 
 setInterval(spawnHeart, 1000); // Crear corazones cada 1 segundo
 loop();
+
 
