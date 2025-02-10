@@ -5,7 +5,7 @@ canvas.width = 800;
 canvas.height = 600;
 
 // URLs de las imágenes
-const heartImageURL = './20.png'';
+const heartImageURL = './20.png';
 const throwerImageURL = './19(2).png';
 const playerImageURL = './16(2).png';
 
