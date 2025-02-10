@@ -5,9 +5,9 @@ canvas.width = 800;
 canvas.height = 600;
 
 // URLs de las imágenes
-const heartImageURL = 'https://raw.githubusercontent.com/aecruz1000/image/blob/main/20.png';
-const throwerImageURL = 'https://raw.githubusercontent.com/aecruz1000/image/blob/main/19(2).png';
-const playerImageURL = 'https://raw.githubusercontent.com/aecruz1000/image/blob/main/16(2).png';
+const heartImageURL = './20.png'';
+const throwerImageURL = './19(2).png';
+const playerImageURL = './16(2).png';
 
 const player = {
     x: canvas.width / 2 - 50,
